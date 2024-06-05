@@ -1,0 +1,40 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  rules:
+    - host: quizee.dev
+      http:
+        paths:
+          - path: /api/auth/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: user-srv
+                port:
+                  number: 3000
+          - path: /api/quiz?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: quiz-srv
+                port:
+                  number: 3000
+          - path: /api/question?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: question-srv
+                port:
+                  number: 3000                  
+          - path: /?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: client-srv
+                port:
+                  number: 3000

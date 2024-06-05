@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quiz-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quiz
+  template:
+    metadata:
+      labels:
+        app: quiz
+    spec:
+      containers:
+      - name: quiz
+        image: dilshadjr3312/quiz
+          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quiz-srv
+spec:
+  selector:
+    app: quiz
+  ports:
+  - name: quiz
+    protocol: TCP
+    port: 3000
+    targetPort: 3000
